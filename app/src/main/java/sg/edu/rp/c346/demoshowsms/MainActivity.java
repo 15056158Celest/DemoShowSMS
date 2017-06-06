@@ -44,8 +44,19 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Uri uri = Uri.parse("content://sms");
                 String[] reqCols = new String[] {"date", "address", "body", "type"};
+                // Get Content Resolver object from which to
+                //  query the content provider
                 ContentResolver cr = getContentResolver();
-                Cursor cursor = cr.query(uri, reqCols, null, null, null);
+
+                // The filter String
+                String filter="body LIKE ? OR body LIKE ?";
+                // The matches for the ?
+
+                String[] filterArgs = {"%late%", "%min%"};
+                // Fetch SMS Message from Built-in Content Provider
+
+                Cursor cursor = cr.query(uri, reqCols, filter, filterArgs, null);
+
                 String smsBody = "";
                 if (cursor.moveToFirst()){
                     do {
